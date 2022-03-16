@@ -104,13 +104,13 @@ def get_args_parser():
     parser.add_argument('--focal_alpha', default=0.25, type=float)
 
     # dataset parameters
-    parser.add_argument('--dataset_file', default='coco')
+    parser.add_argument('--dataset_file', default='YoutubeVIS')
     parser.add_argument('--coco_path', default='../coco', type=str)
-    parser.add_argument('--ytvis_path', default='../ytvis', type=str)
+    parser.add_argument('--ytvis_path', default='/data/ningyuanxiang/datasets/ytvis_2019/', type=str)
     parser.add_argument('--coco_panoptic_path', type=str)
     parser.add_argument('--remove_difficult', action='store_true')
 
-    parser.add_argument('--output_dir', default='',
+    parser.add_argument('--output_dir', default='./output/',
                         help='path where to save, empty for no saving')
     parser.add_argument('--device', default='cuda',
                         help='device to use for training / testing')
@@ -213,7 +213,7 @@ def main(args):
     else:
         optimizer = torch.optim.AdamW(param_dicts, lr=args.lr,
                                       weight_decay=args.weight_decay)
-    lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, args.lr_drop )
+    lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, args.lr_drop)
 
     if args.distributed:
         model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[args.gpu], find_unused_parameters=True)
@@ -221,7 +221,7 @@ def main(args):
     
     base_ds = {}
     
-    if args.dataset_file == 'YoutubeVIS'  or args.dataset_file == 'jointcoco' or args.dataset_file == 'Seq_coco':
+    if args.dataset_file == 'YoutubeVIS' or args.dataset_file == 'jointcoco' or args.dataset_file == 'Seq_coco':
         base_ds['ytvos'] = get_coco_api_from_dataset(dataset_val)
     else:
         base_ds['coco'] = get_coco_api_from_dataset(dataset_val)

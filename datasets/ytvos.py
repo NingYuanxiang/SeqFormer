@@ -249,6 +249,7 @@ def make_coco_transforms(image_set):
 
 def build(image_set, args):
     root = Path(args.ytvis_path)
+    print(root)
     assert root.exists(), f'provided YTVOS path {root} does not exist'
     
     if args.dataset_file == 'YoutubeVIS' or args.dataset_file == 'jointcoco':

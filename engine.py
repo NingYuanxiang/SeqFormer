@@ -13,7 +13,8 @@ import cv2
 import numpy as np
 import json
 import copy
-
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "1,8"
 import torch
 import util.misc as utils
 from util.misc import NestedTensor

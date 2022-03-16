@@ -6,9 +6,13 @@
 # Modified from https://github.com/chengdazhi/Deformable-Convolution-V2-PyTorch/tree/pytorch_1.0.0
 # ------------------------------------------------------------------------------------------------
 
+
 from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import division
+import os
+
+os.environ['CUDA_VISIBLE_DEVICES'] = "0,1,8"
 
 import time
 import torch
@@ -60,7 +64,7 @@ def check_forward_equal_with_pytorch_float():
     print(f'* {fwdok} check_forward_equal_with_pytorch_float: max_abs_err {max_abs_err:.2e} max_rel_err {max_rel_err:.2e}')
 
 
-def check_gradient_numerical(channels=4, grad_value=True, grad_sampling_loc=True, grad_attn_weight=True):
+def check_gradient_numerical(channels=4, grad_value=True, grad_sampling_loc=True, grad_attn_weight=True, device=8):
 
     value = torch.rand(N, S, M, channels).cuda() * 0.01
     sampling_locations = torch.rand(N, Lq, M, L, P, 2).cuda()
